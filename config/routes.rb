@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  resource :session, only: [] do
+    collection do
+      get :new, path: :sign_in
+      post :create, path: :sign_in
+      delete :destroy, path: :sign_out, as: :sign_out
+    end
+  end
+
+  namespace :admin, path: ENV.fetch('ADMIN_PATH', 'admin') do
+    resources :users
+  end
 end
