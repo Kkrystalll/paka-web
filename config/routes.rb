@@ -10,4 +10,6 @@ Rails.application.routes.draw do
       delete :destroy, path: :sign_out, as: :sign_out
     end
   end
+
+  resources :password_resets, only: %i[new create edit update]
 end

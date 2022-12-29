@@ -1,0 +1,38 @@
+<div class="sm:mx-auto sm:w-full sm:max-w-md">
+  <h2 class="mt-6 text-3xl font-extrabold text-center text-gray-900">
+    更改密碼
+  </h2>
+</div>
+
+<div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+  <div class="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
+    <%= form_with model: @user, url: password_reset_path(@token), method: :patch do |f| %>
+      <section class='space-y-6' >
+        <% if @user.errors.any? %>
+          <ul>
+            <% @user.errors.full_messages.each do |msg| %>
+              <li class="text-rose-500"><%= msg%></li>
+            <% end %>
+          </ul>
+        <% end %>
+          
+        <div>
+          <%= f.label :password, '新的密碼', class: 'block text-sm font-medium text-gray-700' %>
+          <div class='mt-1'>
+            <%= f.password_field :password, autocomplete: 'current-password', required: true, class: 'text-field' %>
+          </div>
+        </div>
+
+        <div>
+          <%= f.label :password_confirmation, class: 'block text-sm font-medium text-gray-700' %>
+          <div class='mt-1'>
+            <%= f.password_field :password_confirmation, autocomplete: 'current-password', required: true, class: 'text-field' %>
+          </div>
+        </div>
+
+        <div>
+          <%= f.submit '更改密碼', class: "w-full flex justify-center action" %>
+        </div>
+      </section>
+    <% end %>
+</div>

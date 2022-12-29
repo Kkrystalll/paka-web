@@ -1,0 +1,20 @@
+<section>
+  <div>
+    <h2>忘記密碼</h2>
+  </div>
+  <div>
+    <div>
+      <%= form_with url: password_resets_path, method: :post do |form| %>
+        <div>
+          <%= form.label :email, '填寫您註冊的電子信箱' %>
+          <div>
+            <%= form.email_field :email, placeholder: "信箱", autocomplete: "email", required: true %>
+          </div>
+        </div>
+        <div>
+          <%= form.submit "重設密碼" %>
+        </div>
+      <% end %> 
+    </div>
+  </div>
+</section>
