@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root 'sessions#new'
 
   resources :users
+  resources :companies, only: %i[new create]
 
   resource :session, only: [] do
     collection do

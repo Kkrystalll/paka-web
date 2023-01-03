@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_many :companies, through: :company_users
 
   # validation
-  validates :email, uniqueness: true, presence: true
+  validates :email, uniqueness: true, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, confirmation: true, length: { minimum: 6 }, if: -> { new_record? || changes[:crypted_password] }
   validates :name, presence: true
 end

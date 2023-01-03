@@ -1,22 +1,19 @@
 <div>
   <h2>企業帳號註冊</h2>
 </div>
-<% @company.errors.full_messages.each do |message| %>
-  <%= message %>
-<% end %>
 <div>
   <%= form_with model: @company do |form| %>
     <%= form.label :gui_number %>
-    <%= form.text_field :gui_number, placeholder: "公司統號", required: true %>
+    <%= form.text_field :gui_number, placeholder: "公司統一編號", required: true %>
     <%= fields_for :user do |user_form| %>
       <%= user_form.label :name %>
-      <%= user_form.text_field :name, placeholder: "姓名*", required: true %>
+      <%= user_form.text_field :name, placeholder: "姓名", required: true %>
       <%= user_form.label :email %>
-      <%= user_form.email_field :email, placeholder: "Email*", required: true %>
+      <%= user_form.email_field :email, placeholder: "信箱", required: true %>
       <%= user_form.label :password %>
-      <%= user_form.password_field :password, placeholder: "密碼*", required: true %>
+      <%= user_form.password_field :password, placeholder: "密碼", required: true %>
       <%= user_form.label :password_confirmation %>
-      <%= user_form.password_field :password_confirmation, placeholder: "確認密碼*", required: true %>
+      <%= user_form.password_field :password_confirmation, placeholder: "確認密碼", required: true %>
     <% end %>
 
     <%= form.submit "註冊"%>

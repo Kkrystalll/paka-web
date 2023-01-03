@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CompaniesController < ApplicationController
-  before_action :get_company_info, :user_params, :company_params, only: :create
+  before_action :set_company_info, :user_params, :company_params, only: :create
 
   def new
     @company = Company.new
@@ -10,8 +10,9 @@ class CompaniesController < ApplicationController
   def create
     @company = Company.create!(gui_number: company_params[:gui_number], name: @res_body['Company_Name'], principal: @res_body['Responsible_Name'], address: @res_body['Company_Location'])
 
-    user = @company.users.new(user_params)
-    if user.save
+    user = User.create_with(user_params).find_or_create_by(email: user_params[:email])
+    company_user = CompanyUser.new(company_id: @company.id, user_id: user.id, role: 1)
+    if company_user.save
       redirect_to users_path
     else
       render :new
@@ -28,11 +29,7 @@ class CompaniesController < ApplicationController
     params.require(:company).permit(:gui_number)
   end
 
-  def get_company_info
-    uri = "https://data.gcis.nat.gov.tw/od/data/api/5F64D864-61CB-4D0D-8AD9-492047CC1EA6?$format=json&$filter=Business_Accounting_NO eq #{company_params[:gui_number]}"
-    res = Faraday.get(uri)
-    @res_body = JSON.parse(res.body)[0]
-    raise ActiveRecord::RecordNotFound if @res_body['Business_Accounting_NO'].nil?
-    @res_body
+  def set_company_info
+    @res_body = GcisService.call(company_params[:gui_number])
   end
 end
