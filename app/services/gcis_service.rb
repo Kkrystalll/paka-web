@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GcisService
   include Callable
 
@@ -7,7 +9,7 @@ class GcisService
 
   def call
     res = Faraday.get(@uri)
-    raise ActiveRecord::RecordNotFound if res.body.empty?
+    return '' if res.body.empty?
 
     JSON.parse(res.body)[0]
   end

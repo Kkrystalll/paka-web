@@ -1,0 +1,41 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://data.gcis.nat.gov.tw/od/data/api/5F64D864-61CB-4D0D-8AD9-492047CC1EA6?$filter=Business_Accounting_NO%20eq%2083598406&$format=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.7.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      Set-Cookie:
+      - JSESSIONID=1A850F393DD6EE52C73C23D4BE1B3D04; Path=/; HttpOnly
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '522'
+      Date:
+      - Wed, 04 Jan 2023 09:06:35 GMT
+    body:
+      encoding: UTF-8
+      string: '[{"Business_Accounting_NO":"83598406","Company_Status_Desc":"核准設立","Company_Name":"五倍紅寶石程式資訊教育股份有限公司","Capital_Stock_Amount":1500000,"Paid_In_Capital_Amount":1500000,"Responsible_Name":"高見龍","Company_Location":"臺北市中正區衡陽路7號5樓之1","Register_Organization_Desc":"臺北市政府","Company_Setup_Date":"1090720","Change_Of_Approval_Data":"","Revoke_App_Date":"","Case_Status":"","Case_Status_Desc":"","Sus_App_Date":"","Sus_Beg_Date":"","Sus_End_Date":""}]'
+  recorded_at: Wed, 04 Jan 2023 09:06:28 GMT
+recorded_with: VCR 6.1.0

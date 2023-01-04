@@ -3,7 +3,7 @@
 class User < ApplicationRecord
   authenticates_with_sorcery!
 
-  has_many :company_users
+  has_many :company_users, dependent: :destroy
   has_many :companies, through: :company_users
 
   # validation

@@ -31,5 +31,6 @@ class CompaniesController < ApplicationController
 
   def set_company_info
     @res_body = GcisService.call(company_params[:gui_number])
+    raise ActiveRecord::RecordNotFound if @res_body.empty?
   end
 end
