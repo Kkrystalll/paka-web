@@ -3,6 +3,10 @@
 class CompaniesController < ApplicationController
   before_action :set_company_info, :user_params, :company_params, only: :create
 
+  def show
+    @company = Company.find(params[:id])
+  end
+
   def new
     @company = Company.new
   end
@@ -17,6 +21,10 @@ class CompaniesController < ApplicationController
     else
       render :new
     end
+  end
+
+  def edit
+    @company = Company.find(params[:id])
   end
 
   private
