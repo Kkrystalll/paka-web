@@ -1,0 +1,28 @@
+<div class="grid min-h-screen grid-cols-12 company-background">
+  <div class="col-start-2 col-end-12 mt-10">
+    <h1 class="pb-4 font-bold">公司基本資料</h1>
+    <div class="grid grid-cols-12 px-16 border-2 border-black rounded-lg py-14">
+      <ul class="col-start-1 col-end-3 text-right">
+        <li class="mb-8">公司名稱</li>
+        <li class="mb-8">公司統編</li>
+        <li class="mb-8">負責人</li>
+        <li class="mb-8">公司地址</li>
+        <li class="mb-8">聯絡人</li>
+        <li class="mb-8">聯絡人信箱</li>
+      </ul>
+      <div class="col-start-4 col-end-13">
+        <ul>
+          <li class="mb-8"><%= @company.name %></li>
+          <li class="mb-8"><%= @company.gui_number %></li>
+          <li class="mb-8"><%= @company.principal %></li>
+          <li class="mb-8"><%= @company.address %></li>
+          <li class="mb-8">聯絡人 </li>
+          <li class="mb-8">聯絡人信箱 </li>
+        </ul>
+        <button class="px-1 py-2.5 rounded-full bg-gradient-to-r from-black to-yellow-900">
+          <%= link_to '修改', edit_company_path(@company), class: "px-16 py-2 rounded-full bg-black text-white" %>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
