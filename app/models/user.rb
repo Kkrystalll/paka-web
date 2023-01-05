@@ -8,6 +8,6 @@ class User < ApplicationRecord
 
   # validation
   validates :email, uniqueness: true, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :password, confirmation: true, length: { minimum: 6 }, if: -> { new_record? || changes[:crypted_password] }
+  validates :password, confirmation: true, length: { minimum: 4 }, if: -> { new_record? || changes[:crypted_password] }
   validates :name, presence: true
 end
