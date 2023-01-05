@@ -11,6 +11,10 @@ class CompaniesController < ApplicationController
     @company = Company.new
   end
 
+  def edit
+    @company = Company.find(params[:id])
+  end
+
   def create
     @company = Company.create!(gui_number: company_params[:gui_number], name: @res_body['Company_Name'], principal: @res_body['Responsible_Name'], address: @res_body['Company_Location'])
 
@@ -21,10 +25,6 @@ class CompaniesController < ApplicationController
     else
       render :new
     end
-  end
-
-  def edit
-    @company = Company.find(params[:id])
   end
 
   private
