@@ -2,18 +2,15 @@
 
 class CompaniesController < ApplicationController
   before_action :set_company_info, :user_params, :company_params, only: :create
+  before_action :find_company, only: %i[show edit]
 
-  def show
-    @company = Company.find(params[:id])
-  end
+  def show; end
 
   def new
     @company = Company.new
   end
 
-  def edit
-    @company = Company.find(params[:id])
-  end
+  def edit; end
 
   def create
     @company = Company.create!(gui_number: company_params[:gui_number], name: @res_body['Company_Name'], principal: @res_body['Responsible_Name'], address: @res_body['Company_Location'])
@@ -40,5 +37,9 @@ class CompaniesController < ApplicationController
   def set_company_info
     @res_body = GcisService.call(company_params[:gui_number])
     raise ActiveRecord::RecordNotFound if @res_body.empty?
+  end
+
+  def find_company
+    @company = Company.find(params[:id])
   end
 end

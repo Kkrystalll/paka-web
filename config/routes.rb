@@ -2,12 +2,7 @@ Rails.application.routes.draw do
   root 'sessions#new'
 
   resources :users
-  resources :companies, only: %i[show new create edit] do
-    member do
-      get :employee_management
-      post :new_employee
-    end
-  end
+  resources :companies, only: %i[show new create edit]
 
   resource :session, only: [] do
     collection do
