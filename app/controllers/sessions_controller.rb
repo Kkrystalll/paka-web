@@ -5,16 +5,23 @@ class SessionsController < ApplicationController
 
   def create
     user = login(params[:email], params[:password])
+    return unless user && member_of_company?
 
-    if user
-      redirect_back_or_to users_path
-    else
-      render :new
-    end
+    session[:gui] = params[:gui_number]
+    redirect_back_or_to users_path
   end
 
   def destroy
     logout
-    redirect_to users_path
+    session.delete(:gui)
+    redirect_to session_path
+  end
+
+  private
+
+  def member_of_company?
+    user = User.find_by(email: params[:email])
+    company = Company.find_by(gui_number: params[:gui_number])
+    CompanyUser.exists?(company:, user:)
   end
 end
