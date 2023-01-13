@@ -16,6 +16,7 @@ jobs:
         with:
           ruby-version: 3.2.0
           bundler-cache: true
+      - run: bundle install
       - name: Run Rubocop
         run: bundle exec rubocop
   feature-spec:
@@ -27,6 +28,7 @@ jobs:
         with:
           ruby-version: 3.2.0
           bundler-cache: true
+      - run: bundle install
       - name: Setup test database
         env:
           DB_HOST: localhost
@@ -41,6 +43,23 @@ jobs:
           DB_PASSWORD: postgres
           RAILS_ENV: test
         run: bundle exec rspec --pattern "spec/features/**/*_spec.rb"
+  service-spec:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.0
+          bundler-cache: true
+      - run: bundle install
+      - name: Setup test database
+        env:
+          DB_HOST: localhost
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+          RAILS_ENV: test
+        run: bundle exec rake db:prepare
       - name: Run Services Spec
         env:
           DB_HOST: localhost
