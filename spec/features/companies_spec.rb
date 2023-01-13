@@ -13,7 +13,7 @@ RSpec.describe 'Company create flow', type: :feature do
       fill_in 'Password', with: 'Password'
       fill_in 'Password confirmation', with: 'Password'
       click_on '註冊'
-      expect(page).to have_content 'Jobs'
+      expect(page).to have_content '後台管理人員登入'
     end
   end
 

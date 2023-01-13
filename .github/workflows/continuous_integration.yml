@@ -1,0 +1,50 @@
+name: Ruby
+
+on:
+  pull_request:
+    branches: 
+      - '**'
+
+jobs:
+  syntax-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.0
+          bundler-cache: true
+      - name: Run Rubocop
+        run: bundle exec rubocop
+  feature-spec:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.0
+          bundler-cache: true
+      - name: Setup test database
+        env:
+          DB_HOST: localhost
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+          RAILS_ENV: test
+        run: bundle exec rake db:prepare
+      - name: Run Feature Spec
+        env:
+          DB_HOST: localhost
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+          RAILS_ENV: test
+        run: bundle exec rspec --pattern "spec/features/**/*_spec.rb"
+      - name: Run Services Spec
+        env:
+          DB_HOST: localhost
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+          RAILS_ENV: test
+        run: bundle exec rspec --pattern "spec/services/**/*_spec.rb"
