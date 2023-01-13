@@ -19,22 +19,12 @@ jobs:
         with:
           ruby-version: 3.2.0
           bundler-cache: true
+      - run: bundle update debug
+      - run: bundle install
       - name: Run Rubocop
         run: bundle exec rubocop
   feature-spec:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:11
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports: ['5432:5432']
-        options:
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     steps:
       - uses: actions/checkout@v3
       - name: Setup Ruby
@@ -42,6 +32,8 @@ jobs:
         with:
           ruby-version: 3.2.0
           bundler-cache: true
+      - run: bundle update debug
+      - run: bundle install
       - name: Setup test database
         env:
           DB_HOST: localhost
@@ -58,18 +50,6 @@ jobs:
         run: bundle exec rspec --pattern "spec/features/**/*_spec.rb"
   service-spec:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:11
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports: ['5432:5432']
-        options:
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     steps:
       - uses: actions/checkout@v3
       - name: Setup Ruby
@@ -77,6 +57,8 @@ jobs:
         with:
           ruby-version: 3.2.0
           bundler-cache: true
+      - run: bundle update debug
+      - run: bundle install
       - name: Setup test database
         env:
           DB_HOST: localhost
