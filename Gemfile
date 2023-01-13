@@ -19,7 +19,8 @@ gem 'tw_vat_number', '~> 0.1.0'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 group :development, :test do
-  gem 'debug', platforms: %i[mri mingw x64_mingw]
+  gem 'debug', '~> 1.6.2', platforms: %i[mri mingw x64_mingw]
+  # gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'dotenv-rails', '~> 2.8'
   gem 'factory_bot_rails', '~> 6.2'
   gem 'faker', '~> 3.1'
