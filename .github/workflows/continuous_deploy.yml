@@ -6,11 +6,8 @@ env:
   S3BUCKET: <%= ENV["AWS_BUCKET"] %>
 
 on:
-  # pull_request:
-  #   types:
-  #     - closed
-    branches:
-      - issues/32
+  branches:
+    - issues/32
 
 jobs:
   build:
