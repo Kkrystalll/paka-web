@@ -1,9 +1,6 @@
 name: Ruby
 
 on:
-  push:
-    branches: 
-      - '**'
   pull_request:
     branches: 
       - '**'
@@ -50,6 +47,10 @@ jobs:
           RAILS_ENV: test
           DB_PORT: 5432
         run: bundle exec rake db:prepare
+      - name: Assets Precompile
+        env:
+          RAILS_ENV: test
+        run: bundle exec rake assets:precompile
       - name: Run Feature Spec
         env:
           DB_HOST: localhost
@@ -86,6 +87,10 @@ jobs:
           DB_PORT: 5432
           RAILS_ENV: test
         run: bundle exec rake db:prepare
+      - name: Assets Precompile
+        env:
+          RAILS_ENV: test
+        run: bundle exec rake assets:precompile
       - name: Run Services Spec
         env:
           DB_HOST: localhost
