@@ -2,8 +2,9 @@ name: Build and Deploy
 
 env:
   COMMIT_SHA: ${{ github.sha }}
-  AWS_REGION: <%= ENV["AWS_REGION"] %>
-  S3BUCKET: <%= ENV["AWS_BUCKET"] %>
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  S3BUCKET: ${{ secrets.AWS_BUCKET }}
+  
 
 on:
   push:
@@ -13,37 +14,36 @@ on:
 jobs:
   build:
     name: Build and Package
-    runs-on: ubuntu-20.04
-    permissions:
-      id-token: write
-      contents: read
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-      - uses: actions/checkout@v2
-        name: Checkout Repository
-
-      - uses: aws-actions/configure-aws-credentials@v1
+      - uses: actions/checkout@v3
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          role-to-assume: ${{ secrets.IAMROLE_GITHUB }}
-          role-session-name: GitHub-Action-Role
-          aws-region: <%= ENV["AWS_REGION"] %>
-
-      - name: Set up JDK 1.8
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
-
-      - name: chmod
-        run: chmod -R +x ./.github
-
-      - name: Build and Package Maven
-        id: package
-        working-directory: ${{ env.applicationfolder }}
-        run: $GITHUB_WORKSPACE/.github/scripts/build.sh
-
-      - name: Upload Artifact to s3
-        working-directory: ${{ env.applicationfolder }}/target
-        run: aws s3 cp *.war s3://${{ env.S3BUCKET }}/
-
+          ruby-version: 3.2.0
+          bundler-cache: true
+      - name: Setup test database
+        env:
+          DB_HOST: localhost
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+          RAILS_ENV: test
+          DB_PORT: 5432
+        run: bundle exec rake db:prepare
+      
   deploy:
     needs: build
     if: github.event.pull_request.merged == true
@@ -53,7 +53,7 @@ jobs:
       id-token: write
       contents: read
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: aws-actions/configure-aws-credentials@v1
       with:
         role-to-assume: ${{ secrets.IAMROLE_GITHUB }}
